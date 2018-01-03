@@ -6,7 +6,7 @@
 	var _obj = {
 		id:			'thisObj',
 		name:		'genericObj',
-		austin:		'rocks',
+		austin:		'sucks',
 		type:		'thing'
 	};
 
