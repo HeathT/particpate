@@ -6,7 +6,7 @@
 	var _obj = {
 		id:			'thisObj',
 		name:		'genericObj',
-		austin:		'sucks',
+		austin:		'is going to sling code like a god!',
 		type:		'thing'
 	};
 
