@@ -13,8 +13,8 @@ Ext.define('ProjectP.view.main.Main', {
         'Ext.plugin.Viewport',
         'Ext.window.MessageBox',
 
-        'ProjectP.view.main.MainController',
-        'ProjectP.view.main.MainModel',
+        'ProjectP.view.main.MainController',        // Found in:  /particpate/app/view/main/MainController.js
+        'ProjectP.view.main.MainModel',             // Found in:  /particpate/app/view/main/MainController.js
         'ProjectP.view.main.List'
     ],
 

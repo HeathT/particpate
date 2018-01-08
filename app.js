@@ -4,12 +4,12 @@
  * Sencha Cmd when upgrading.
  */
 Ext.application({
-    name: 'ProjectP',
+    name: 'ProjectP',                   // This is the name we assigned to the project
 
-    extend: 'ProjectP.Application',
+    extend: 'ProjectP.Application',     // This references:  /app/Application.js
 
     requires: [
-        'ProjectP.view.main.Main'
+        'ProjectP.view.main.Main'       // This references:  /classic/src/view/main/Main.js
     ],
 
     // The name of the initial view to create. With the classic toolkit this class
