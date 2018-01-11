@@ -24,8 +24,9 @@ Ext.require([
 // once Ext is ready do all the things - ALL THE THINGS
 Ext.onReady(function(){
 	Ext.create('widget.window', {
-		title: 'Layout Window with title <em>after</em> tools',
 		id: 'tempwin',
+		title: 'Layout Window with title <em>after</em> tools',
+		autoShow: true,
 		header: {
 			titlePosition: 2,
 			titleAlign: 'center'
