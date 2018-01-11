@@ -54,7 +54,7 @@ Ext.onReady(function(){
 		// 	floatable: false
 		// }, {
 			region: 'center',
-			xtype: 'formpanel',
+			xtype: 'form',
 			id:	'loginForm',
 			items: [{
 				xtype: 'textfield',
