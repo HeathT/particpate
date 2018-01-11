@@ -26,7 +26,7 @@ Ext.require([
 Ext.onReady(function(){
 	Ext.create('widget.window', {
 		id: 'loginWindow',
-		title: 'Layout Window with title <em>after</em> tools',
+		title: 'Login Window',
 		autoShow: true,
 		header: {
 			titlePosition: 2,
@@ -56,6 +56,7 @@ Ext.onReady(function(){
 			region: 'center',
 			xtype: 'form',
 			id:	'loginForm',
+			padding: '15 0 0 10',
 			items: [{
 				xtype: 'textfield',
 				fieldLabel: 'Username',
@@ -69,19 +70,19 @@ Ext.onReady(function(){
 			region: 'south',
 			xtype: 'tabpanel',
 			id: 'loginOptions',
+			height: 150,
+			resizable: false,
 			items: [{
-				// LTR even when example is RTL so that the code can be read
-				rtl: false,
-				title: 'Sponsor Sign-up',
-				html: '<p>Window configured with:</p><pre style="margin-left:20px"><code>header: {\n    titlePosition: 2,\n    titleAlign: "center"\n},\nmaximizable: true,\ntools: [{type: "pin"}],\nclosable: true</code></pre>',
+				title: 'Sign-up Here',
+				html: 'Sign-up here blah blah blah',
 				closable: false
 			}, {
-				title: '',
-				html: 'Hello world 2',
+				title: 'Information',
+				html: 'Explain what the application is, what it does, and maybe a brief pop-out video',
 				closable: false
 			}, {
 				title: 'Contact Us',
-				html: 'Hello world 3',
+				html: 'Contact information, etc, etc',
 				closable: false
 			}]
 		}
