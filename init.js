@@ -23,8 +23,7 @@ Ext.require([
 
 // once Ext is ready do all the things - ALL THE THINGS
 Ext.onReady(function(){
-	var win,
-		button = Ext.get('show-btn');
+	var win;
 	
 
 	if (!win) {
@@ -37,7 +36,6 @@ Ext.onReady(function(){
 			closable: true,
 			closeAction: 'hide',
 			maximizable: true,
-			animateTarget: button,
 			width: 600,
 			minWidth: 350,
 			height: 350,
@@ -70,16 +68,6 @@ Ext.onReady(function(){
 					closable: true
 				}]
 			}]
-		});
-	}
-	button.dom.disabled = true;
-	if (win.isVisible()) {
-		win.hide(this, function() {
-			button.dom.disabled = false;
-		});
-	} else {
-		win.show(this, function() {
-			button.dom.disabled = false;
 		});
 	}
 });
