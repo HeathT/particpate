@@ -14,6 +14,7 @@ var _ = _ || {};
 // specify which libraries to load as part of this init
 Ext.require([
 	'Ext.tab.*',
+	'Ext.form.Panel',
 	'Ext.window.*',
 	'Ext.tip.*',
 	'Ext.layout.container.Border'
@@ -24,7 +25,7 @@ Ext.require([
 // once Ext is ready do all the things - ALL THE THINGS
 Ext.onReady(function(){
 	Ext.create('widget.window', {
-		id: 'tempwin',
+		id: 'loginWindow',
 		title: 'Layout Window with title <em>after</em> tools',
 		autoShow: true,
 		header: {
@@ -38,35 +39,53 @@ Ext.onReady(function(){
 		minWidth: 350,
 		height: 350,
 		centered: true,
-		tools: [{type: 'pin'}],
+		// tools: [{type: 'pin'}],
 		layout: {
 			type: 'border',
 			padding: 5
 		},
-		items: [{
-			region: 'west',
-			title: 'Navigation',
-			width: 200,
-			split: true,
-			collapsible: true,
-			floatable: false
-		}, {
+		items: [
+		{
+		// 	region: 'west',
+		// 	title: 'Navigation',
+		// 	width: 200,
+		// 	split: true,
+		// 	collapsible: true,
+		// 	floatable: false
+		// }, {
 			region: 'center',
+			xtype: 'formpanel',
+			id:	'loginForm',
+			items: [{
+				xtype: 'textfield',
+				fieldLabel: 'Username',
+				blankText: '(required)'
+			},{
+				xtype: 'textfield',
+				fieldLabel: 'Password',
+				blankText: '(required)'
+			}]
+		}, {
+			region: 'south',
 			xtype: 'tabpanel',
+			id: 'loginOptions',
 			items: [{
 				// LTR even when example is RTL so that the code can be read
 				rtl: false,
-				title: 'Bogus Tab',
-				html: '<p>Window configured with:</p><pre style="margin-left:20px"><code>header: {\n    titlePosition: 2,\n    titleAlign: "center"\n},\nmaximizable: true,\ntools: [{type: "pin"}],\nclosable: true</code></pre>'
+				title: 'Sponsor Sign-up',
+				html: '<p>Window configured with:</p><pre style="margin-left:20px"><code>header: {\n    titlePosition: 2,\n    titleAlign: "center"\n},\nmaximizable: true,\ntools: [{type: "pin"}],\nclosable: true</code></pre>',
+				closable: false
 			}, {
-				title: 'Another Tab',
-				html: 'Hello world 2'
+				title: '',
+				html: 'Hello world 2',
+				closable: false
 			}, {
-				title: 'Closable Tab',
+				title: 'Contact Us',
 				html: 'Hello world 3',
-				closable: true
+				closable: false
 			}]
-		}]
+		}
+		]
 	});
 });
 
