@@ -12,12 +12,12 @@ var _ = _ || {};
 
 
 // specify which libraries to load as part of this init
-Ext.require([
-	'Ext.tab.*',
-	'Ext.window.*',
-	'Ext.tip.*',
-	'Ext.layout.container.Border'
-]);
+// Ext.require([
+// 	'Ext.tab.*',
+// 	'Ext.window.*',
+// 	'Ext.tip.*',
+// 	'Ext.layout.container.Border'
+// ]);
 
 
 
