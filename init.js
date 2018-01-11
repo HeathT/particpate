@@ -32,9 +32,9 @@ Ext.onReady(function(){
 			titlePosition: 2,
 			titleAlign: 'center'
 		},
-		closable: true,
+		closable: false,
 		closeAction: 'hide',
-		maximizable: true,
+		maximizable: false,
 		width: 600,
 		minWidth: 350,
 		height: 350,
@@ -46,13 +46,6 @@ Ext.onReady(function(){
 		},
 		items: [
 		{
-		// 	region: 'west',
-		// 	title: 'Navigation',
-		// 	width: 200,
-		// 	split: true,
-		// 	collapsible: true,
-		// 	floatable: false
-		// }, {
 			region: 'center',
 			xtype: 'form',
 			id:	'loginForm',
@@ -86,7 +79,10 @@ Ext.onReady(function(){
 				closable: false
 			}]
 		}
-		]
+		],
+		listeners: [{
+
+		}]
 	});
 });
 
