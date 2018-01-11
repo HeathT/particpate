@@ -55,7 +55,7 @@ _.errorHandler = {
 			case 'displayed': this.displayed(e);
 			break;
 
-			default: this.normal(e);
+			default: this.capture(e);
 			break;
 		}
 	},
@@ -64,20 +64,24 @@ _.errorHandler = {
 		console.warn('Capturing this error to the database');
 		/* TODO: Capture e in the DB */
 		e = '';
+		return this;
 	},
-	normal: function(e) {
+	active: function(e) {
 		/* throw the error to the console - basically a bypass */
-		console.info(e);
-
-		// also save it in the database
+		
+		// Save it to the database first
 		this.capture(e);
+		console.info('running active');
+		
+		console.warn(e);
+
 	},
-	display: function(e) {
+	displayed: function(e) {
+		// Save it to the database first
+		this.capture(e);
+
 		/* display an error message from within the app as a modal window */
 		Ext.Msg.alert('Error!', e.name + ':<br />' + e.message, this);
-
-		// also save it in the database
-		this.capture(e);
 	}
 
 

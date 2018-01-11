@@ -39,6 +39,7 @@ Ext.onReady(function(){
 			width: 600,
 			minWidth: 350,
 			height: 350,
+			centered: true,
 			tools: [{type: 'pin'}],
 			layout: {
 				type: 'border',
