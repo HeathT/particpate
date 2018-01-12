@@ -10,11 +10,42 @@
 // create a global variable for our application - this will later need to be minified and obfiscated
 var _ = _ || {};
 
+_.scheme = {
+	default: {
+		name:	'crisp',
+		path:	'ext-5.0.1/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all.css'
+	},
+	change: function(n){
+		for(i=0;i<_.scheme.allowed.length-1;i++){
+			if(_.scheme.allowed[i].name === n){
+				// load the CSS class to change styles
+				Ext.getHead().dom.innerHTML = Ext.getHead().dom.innerHTML + '<link rel=\"stylesheet\" type=\"text/css\" href=\"' + _.scheme.allowed[i].path + '">'
+			}
+		}
+	},
+	allowed:[
+		{
+			name:	'aria',
+			path:	'ext-5.0.1/packages/ext-theme-aria/build/resources/ext-theme-aria-all.css'
+		},
+		{
+			name:	'crisp',
+			path:	'ext-5.0.1/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all.css'
+		},
+		{
+			name:	'neptune',
+			path:	'ext-5.0.1/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css'
+		}
+	]
+}
+
 
 // specify which libraries to load as part of this init
 Ext.require([
 	'Ext.tab.*',
 	'Ext.form.Panel',
+	'Ext.button.Button',
+	'Ext.Action',
 	'Ext.window.*',
 	'Ext.tip.*',
 	'Ext.layout.container.Border'
@@ -58,13 +89,10 @@ Ext.onReady(function(){
 				padding: '5 0 0 15',
 				fieldLabel: 'Password',
 				blankText: '(required)'
-			},{
-				xtype: 'html',
-				html: '<br /><br />Interested in membership? <a href="" onClick="Ext.getCmp(\'loginwindow\')">Sign-up here!</a>'
 			}],
 			buttons:[
 				{
-					text: 'Help'
+					text: 'Sign-up'
 				},
 				{
 					text: 'Login'
