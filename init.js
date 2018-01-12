@@ -68,7 +68,7 @@ Ext.onReady(function(){
 		maximizable: false,
 		resizable: false,
 		width: 400,
-		height: 275,
+		height: 200,
 		centered: true,
 		layout: {
 			type: 'border',
@@ -100,26 +100,6 @@ Ext.onReady(function(){
 			]
 
 		}
-		// ,{
-		// 	region: 'south',
-		// 	xtype: 'tabpanel',
-		// 	id: 'loginOptions',
-		// 	height: 100,
-		// 	resizable: false,
-		// 	items: [{
-		// 		title: 'Sign-up Here',
-		// 		html: 'Sign-up here blah blah blah',
-		// 		closable: false
-		// 	}, {
-		// 		title: 'Information',
-		// 		html: 'Explain what the application is, what it does, and maybe a brief pop-out video',
-		// 		closable: false
-		// 	}, {
-		// 		title: 'Contact Us',
-		// 		html: 'Contact information, etc, etc',
-		// 		closable: false
-		// 	}]
-		// }
 		],
 		listeners: [{
 
