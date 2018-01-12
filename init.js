@@ -83,12 +83,14 @@ Ext.onReady(function(){
 				xtype: 'textfield',
 				padding: '20 0 0 15',
 				fieldLabel: 'Username',
-				blankText: '(required)'
+				allowBlank: false,
+				emptyText: '(required)'
 			},{
 				xtype: 'textfield',
 				padding: '5 0 0 15',
 				fieldLabel: 'Password',
-				blankText: '(required)'
+				allowBlank: false,
+				emptyText: '(required)'
 			}],
 			buttons:[
 				{
