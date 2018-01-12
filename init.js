@@ -35,9 +35,9 @@ Ext.onReady(function(){
 		closable: false,
 		closeAction: 'hide',
 		maximizable: false,
-		width: 600,
-		minWidth: 350,
-		height: 350,
+		resizable: false,
+		width: 400,
+		height: 275,
 		centered: true,
 		layout: {
 			type: 'border',
@@ -58,7 +58,11 @@ Ext.onReady(function(){
 				padding: '5 0 0 15',
 				fieldLabel: 'Password',
 				blankText: '(required)'
+			}],
+			buttons:[{
+				text: 'Login'
 			}]
+
 		}, {
 			region: 'south',
 			xtype: 'tabpanel',
