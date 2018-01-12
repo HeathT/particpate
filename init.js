@@ -39,23 +39,23 @@ Ext.onReady(function(){
 		minWidth: 350,
 		height: 350,
 		centered: true,
-		// tools: [{type: 'pin'}],
 		layout: {
 			type: 'border',
-			padding: 5
+			padding: 3
 		},
 		items: [
 		{
 			region: 'center',
 			xtype: 'form',
 			id:	'loginForm',
-			padding: '15 0 0 10',
 			items: [{
 				xtype: 'textfield',
+				padding: '20 0 0 15',
 				fieldLabel: 'Username',
 				blankText: '(required)'
 			},{
 				xtype: 'textfield',
+				padding: '5 0 0 15',
 				fieldLabel: 'Password',
 				blankText: '(required)'
 			}]
@@ -63,7 +63,7 @@ Ext.onReady(function(){
 			region: 'south',
 			xtype: 'tabpanel',
 			id: 'loginOptions',
-			height: 150,
+			height: 100,
 			resizable: false,
 			items: [{
 				title: 'Sign-up Here',
