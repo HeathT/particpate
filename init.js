@@ -98,7 +98,19 @@ Ext.onReady(function(){
 				},
 				'->',
 				{
-					text: 'Login'
+					text: 'Login',
+					handler: function() {
+						Ext.Ajax.request({
+							url: 'app/model/login.cfc',
+							params: {
+								id: 1
+							},
+							success: function(response){
+								// process server response here
+								console.info(response.responseText);
+							}
+						});
+					}
 				}
 			]
 

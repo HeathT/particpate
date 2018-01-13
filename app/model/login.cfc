@@ -23,6 +23,15 @@
 		<cfif #getLogin.recordcount# NEQ 1>
 			<cfreturn false>
 		<cfelse>
+
+			<cfquery datasource="projectp" name="recordlogin">
+				INSERT into loginhistory
+				SET    (userid)
+				VALUES (#getLogin.id#)
+			</cfquery>
+
+
+
 			<cfreturn getLogin> 
 		</cfif>
 
