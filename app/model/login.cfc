@@ -26,8 +26,7 @@
 
 			<cfquery datasource="projectp" name="recordlogin">
 				INSERT into loginhistory
-				SET    (userid)
-				VALUES (#getLogin.id#)
+				SET    userid = #getLogin.id#;
 			</cfquery>
 
 			<cfreturn getLogin> 
