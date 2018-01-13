@@ -80,17 +80,19 @@ Ext.onReady(function(){
 			xtype: 'form',
 			id:	'loginForm',
 			items: [{
-				xtype: 'textfield',
-				padding: '20 0 0 15',
+				xtype: 		'textfield',
+				padding: 	'20 0 0 15',
 				fieldLabel: 'Username',
+				id: 		'username',
 				allowBlank: false,
-				emptyText: '(required)'
+				emptyText: 	'(required)'
 			},{
-				xtype: 'textfield',
-				padding: '5 0 0 15',
+				xtype: 		'textfield',
+				padding: 	'5 0 0 15',
 				fieldLabel: 'Password',
+				id:			'password',
 				allowBlank: false,
-				emptyText: '(required)'
+				emptyText: 	'(required)'
 			}],
 			buttons:[
 				{
@@ -102,8 +104,10 @@ Ext.onReady(function(){
 					handler: function() {
 						Ext.Ajax.request({
 							url: 'app/model/login.cfc',
+							method: 'POST',
 							params: {
-								id: 1
+								username: Ext.getCmp('username').value,
+								password: Ext.getCmp('password').value
 							},
 							success: function(response){
 								// process server response here
