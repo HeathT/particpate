@@ -96,6 +96,7 @@ Ext.onReady(function(){
 				{
 					text: 'Sign-up'
 				},
+				'->',
 				{
 					text: 'Login'
 				}
