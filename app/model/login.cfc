@@ -1,6 +1,6 @@
 <cfcomponent displayname="login" output="false">
 
-	<cffunction access="public" returntype="string" returnformat="JSON" name="verify" httpMethod="post"> 
+	<cffunction access="remote" returntype="string" returnformat="JSON" name="verify" httpMethod="post"> 
 		<cfargument required="true" type="string" name="username" />
 		<cfargument required="true" type="string" name="password" />
 		<cfargument required="false" type="string" name="method" default="web" />

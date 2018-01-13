@@ -107,7 +107,8 @@ Ext.onReady(function(){
 							method: 'POST',
 							params: {
 								username: Ext.getCmp('username').value,
-								password: Ext.getCmp('password').value
+								password: Ext.getCmp('password').value,
+								method: 'verify'
 							},
 							success: function(response){
 								// process server response here
