@@ -64,6 +64,7 @@ Ext.onReady(function(){
 			titleAlign: 'center'
 		},
 		closable: false,
+		draggable: false,
 		closeAction: 'hide',
 		maximizable: false,
 		resizable: false,
