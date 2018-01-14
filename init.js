@@ -68,8 +68,8 @@ Ext.onReady(function(){
 		closeAction: 'hide',
 		maximizable: false,
 		resizable: false,
-		width: 400,
-		height: 200,
+		width: 640,
+		height: 480,
 		centered: true,
 		layout: {
 			type: 'border',
