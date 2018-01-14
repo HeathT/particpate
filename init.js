@@ -10,34 +10,6 @@
 // create a global variable for our application - this will later need to be minified and obfiscated
 var _ = _ || {};
 
-_.scheme = {
-	default: {
-		name:	'crisp',
-		path:	'ext-5.0.1/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all.css'
-	},
-	change: function(n){
-		for(i=0;i<_.scheme.allowed.length-1;i++){
-			if(_.scheme.allowed[i].name === n){
-				// load the CSS class to change styles
-				Ext.getHead().dom.innerHTML = Ext.getHead().dom.innerHTML + '<link rel=\"stylesheet\" type=\"text/css\" href=\"' + _.scheme.allowed[i].path + '">'
-			}
-		}
-	},
-	allowed:[
-		{
-			name:	'aria',
-			path:	'ext-5.0.1/packages/ext-theme-aria/build/resources/ext-theme-aria-all.css'
-		},
-		{
-			name:	'crisp',
-			path:	'ext-5.0.1/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all.css'
-		},
-		{
-			name:	'neptune',
-			path:	'ext-5.0.1/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css'
-		}
-	]
-}
 
 
 // specify which libraries to load as part of this init
@@ -126,7 +98,7 @@ Ext.onReady(function(){
 			// Adding a listener to the loginWindow object to ensure it remains centered upon window resize
 			// Later on, we may want to make an action and then call the action with the listener 
 			render: function(){
-				Ext.getWin().on("resize", Ext.getCmp('loginWindow').center());
+				_.action.centerLogin();
 			}
 		}
 	});

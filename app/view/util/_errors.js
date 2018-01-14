@@ -25,10 +25,17 @@
 // init the global variable
 var _ = _ || {};
 
+// Create a listener for all JS errors on the window object and use it to override the default error handler
+window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+    alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber
+    + ' Column: ' + column + ' StackTrace: ' +  errorObj);
+}
+
+
 
 _.errorHandler = {
 
-	status: 'passive',			// passive (default), active, displayed		
+	status: 'active',			// passive (default), active, displayed		
 	init:  function(){
 		// this should over-ride the standard javascript error handler
 
