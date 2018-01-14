@@ -30,10 +30,11 @@ var _ = _ || {};
 Ext.onReady(function(){
 
 	// Create a listener for all JS errors on the window object and use it to override the default error handler
-	window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
-		alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber
-		+ ' Column: ' + column + ' StackTrace: ' +  errorObj);
-	}
+	// This may allow us to have a psuedo-built-in try-catch handler
+	// window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+	// 	alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber
+	// 	+ ' Column: ' + column + ' StackTrace: ' +  errorObj);
+	// }
 
 
 
@@ -42,6 +43,13 @@ Ext.onReady(function(){
 		status: 'active',			// passive (default), active, displayed		
 		init:  function(){
 			// this should over-ride the standard javascript error handler
+
+			window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+				// alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber
+				// + ' Column: ' + column + ' StackTrace: ' +  errorObj);
+
+				this.trap(errorMsg, url, lineNumber, column, errorObj);
+			}
 
 			return this;
 		},
@@ -54,45 +62,47 @@ Ext.onReady(function(){
 
 			*/
 
-		trap: function(e) {
+		trap: function(e, u, n, c, o) {
 			/* prevent JS from throwing error */
 			switch(_.errorHandler.status){
-				case 'passive':	this.capture(e);
+				case 'passive':	this.capture(e, u , n, c, o);
 				break;
 
-				case 'active': this.active(e);
+				case 'active': this.active(e, u , n, c, o);
 				break;
 
-				case 'displayed': this.displayed(e);
+				case 'displayed': this.displayed(e, u , n, c, o);
 				break;
 
-				default: this.capture(e);
+				default: this.capture(e, u , n, c, o);
 				break;
 			}
 		},
-		capture: function(e) {
+		capture: function(e, u , n, c, o) {
 			/* record the error behind the scenes for later review */
 			console.warn('Capturing this error to the database');
 			/* TODO: Capture e in the DB */
 			e = '';
 			return this;
 		},
-		active: function(e) {
+		active: function(e, u , n, c, o) {
 			/* throw the error to the console - basically a bypass */
 			
 			// Save it to the database first
-			this.capture(e);
+			this.capture(e, u , n, c, o);
 			console.info('running active');
 			
-			console.warn(e);
+			console.warn('Error!', o.name + ': ' + e, this);
 
 		},
-		displayed: function(e) {
+		displayed: function(e, u , n, c, o) {
 			// Save it to the database first
-			this.capture(e);
+			this.capture(e, u , n, c, o);
 
 			/* display an error message from within the app as a modal window */
-			Ext.Msg.alert('Error!', e.name + ':<br />' + e.message, this);
+			Ext.Msg.alert('Error!', o.name + ':<br />' + e, this);
 		}
 	}
+
+	_.errorHandler.init();
 });
