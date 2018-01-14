@@ -121,11 +121,12 @@ Ext.onReady(function(){
 			]
 
 		}
-		],
-		listeners: [{
-
-		}]
+		]
 	});
+
+	// Adding a listener to the loginWindow object to ensure it remains centered upon window resize
+	// Later on, we may want to make an action and then call the action with the listener 
+	Ext.getWin().on("resize", Ext.getCmp('loginWindow').center(), this);
 });
 
 
