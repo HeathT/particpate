@@ -19,5 +19,5 @@ Ext.onReady(function(){
 				Ext.getWin().on("resize", Ext.getCmp('loginWindow').center(), this);
 			}
 		})
-	}
+	},
 });
