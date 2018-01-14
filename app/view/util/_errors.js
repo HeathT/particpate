@@ -95,4 +95,4 @@ Ext.onReady(function(){
 			Ext.Msg.alert('Error!', e.name + ':<br />' + e.message, this);
 		}
 	}
-}
+});

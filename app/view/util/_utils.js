@@ -47,4 +47,4 @@ Ext.onReady(function(){
 			}
 		]
 	}
-}
+});

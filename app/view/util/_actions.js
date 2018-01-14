@@ -20,4 +20,4 @@ Ext.onReady(function(){
 			}
 		})
 	}
-}
+});
