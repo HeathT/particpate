@@ -25,72 +25,74 @@
 // init the global variable
 var _ = _ || {};
 
-// Create a listener for all JS errors on the window object and use it to override the default error handler
-window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
-    alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber
-    + ' Column: ' + column + ' StackTrace: ' +  errorObj);
-}
 
+// Wait for Ext to ready-up
+Ext.onReady(function(){
 
-
-_.errorHandler = {
-
-	status: 'active',			// passive (default), active, displayed		
-	init:  function(){
-		// this should over-ride the standard javascript error handler
-
-		return this;
-	},
-
-		/*	Trap try/catch errors and handle them with a custom error handler
-			
-			Javascript Object Properties:
-				.name
-				.message
-
-		*/
-
-	trap: function(e) {
-		/* prevent JS from throwing error */
-		switch(_.errorHandler.status){
-			case 'passive':	this.capture(e);
-			break;
-
-			case 'active': this.active(e);
-			break;
-
-			case 'displayed': this.displayed(e);
-			break;
-
-			default: this.capture(e);
-			break;
-		}
-	},
-	capture: function(e) {
-		/* record the error behind the scenes for later review */
-		console.warn('Capturing this error to the database');
-		/* TODO: Capture e in the DB */
-		e = '';
-		return this;
-	},
-	active: function(e) {
-		/* throw the error to the console - basically a bypass */
-		
-		// Save it to the database first
-		this.capture(e);
-		console.info('running active');
-		
-		console.warn(e);
-
-	},
-	displayed: function(e) {
-		// Save it to the database first
-		this.capture(e);
-
-		/* display an error message from within the app as a modal window */
-		Ext.Msg.alert('Error!', e.name + ':<br />' + e.message, this);
+	// Create a listener for all JS errors on the window object and use it to override the default error handler
+	window.onerror = function (errorMsg, url, lineNumber, column, errorObj) {
+		alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber
+		+ ' Column: ' + column + ' StackTrace: ' +  errorObj);
 	}
 
 
 
+	_.errorHandler = {
+
+		status: 'active',			// passive (default), active, displayed		
+		init:  function(){
+			// this should over-ride the standard javascript error handler
+
+			return this;
+		},
+
+			/*	Trap try/catch errors and handle them with a custom error handler
+				
+				Javascript Object Properties:
+					.name
+					.message
+
+			*/
+
+		trap: function(e) {
+			/* prevent JS from throwing error */
+			switch(_.errorHandler.status){
+				case 'passive':	this.capture(e);
+				break;
+
+				case 'active': this.active(e);
+				break;
+
+				case 'displayed': this.displayed(e);
+				break;
+
+				default: this.capture(e);
+				break;
+			}
+		},
+		capture: function(e) {
+			/* record the error behind the scenes for later review */
+			console.warn('Capturing this error to the database');
+			/* TODO: Capture e in the DB */
+			e = '';
+			return this;
+		},
+		active: function(e) {
+			/* throw the error to the console - basically a bypass */
+			
+			// Save it to the database first
+			this.capture(e);
+			console.info('running active');
+			
+			console.warn(e);
+
+		},
+		displayed: function(e) {
+			// Save it to the database first
+			this.capture(e);
+
+			/* display an error message from within the app as a modal window */
+			Ext.Msg.alert('Error!', e.name + ':<br />' + e.message, this);
+		}
+	}
 }
