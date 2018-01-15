@@ -98,7 +98,7 @@ Ext.onReady(function(){
 			// Adding a listener to the loginWindow object to ensure it remains centered upon window resize
 			// Later on, we may want to make an action and then call the action with the listener 
 			render: function(){
-				// _.action.centerLogin();
+				_.action.centerLogin;
 			}
 		}
 	});
