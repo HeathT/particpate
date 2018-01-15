@@ -11,7 +11,7 @@ Ext.onReady(function(){
 		debug: function(msg, type){
 			type = type || 'info';
 
-			if(_.util.debugger){
+			if(_.util.debugger && msg){
 				console[type](msg);
 			}
 		}

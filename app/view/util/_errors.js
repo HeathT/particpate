@@ -51,7 +51,7 @@ Ext.onReady(function(){
 				_.errorHandler.trap(errorMsg, url, lineNumber, column, errorObj);
 			}
 
-			return this;
+			return true;
 		},
 
 			/*	Trap try/catch errors and handle them with a custom error handler
@@ -80,7 +80,7 @@ Ext.onReady(function(){
 		},
 		capture: function(e, u , n, c, o) {
 			/* record the error behind the scenes for later review */
-			console.warn('Capturing this error to the database');
+			_.util.debug('Capturing this error to the database', 'info');
 			/* TODO: Capture e in the DB */
 			e = '';
 			return this;
@@ -90,14 +90,16 @@ Ext.onReady(function(){
 			
 			// Save it to the database first
 			_.errorHandler.capture(e, u , n, c, o);
-			console.info('running active');
-			
+
+
+			_.util.debug('running active', 'info');
 			console.warn('Error!', o.name + ': ' + e, this);
 
 		},
 		displayed: function(e, u , n, c, o) {
 			// Save it to the database first
 			_.errorHandler.capture(e, u , n, c, o);
+			_.util.debug('Alert pop-up', 'info');
 
 			/* display an error message from within the app as a modal window */
 			Ext.Msg.alert('Error!', o.name + ':<br />' + e, this);
