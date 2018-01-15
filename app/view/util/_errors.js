@@ -48,7 +48,7 @@ Ext.onReady(function(){
 				// alert('Error: ' + errorMsg + ' Script: ' + url + ' Line: ' + lineNumber
 				// + ' Column: ' + column + ' StackTrace: ' +  errorObj);
 
-				this.trap(errorMsg, url, lineNumber, column, errorObj);
+				_.errorHandler.trap(errorMsg, url, lineNumber, column, errorObj);
 			}
 
 			return this;
@@ -65,16 +65,16 @@ Ext.onReady(function(){
 		trap: function(e, u, n, c, o) {
 			/* prevent JS from throwing error */
 			switch(_.errorHandler.status){
-				case 'passive':	this.capture(e, u , n, c, o);
+				case 'passive':	_.errorHandler.capture(e, u , n, c, o);
 				break;
 
-				case 'active': this.active(e, u , n, c, o);
+				case 'active': _.errorHandler.active(e, u , n, c, o);
 				break;
 
-				case 'displayed': this.displayed(e, u , n, c, o);
+				case 'displayed': _.errorHandler.displayed(e, u , n, c, o);
 				break;
 
-				default: this.capture(e, u , n, c, o);
+				default: _.errorHandler.capture(e, u , n, c, o);
 				break;
 			}
 		},
@@ -89,7 +89,7 @@ Ext.onReady(function(){
 			/* throw the error to the console - basically a bypass */
 			
 			// Save it to the database first
-			this.capture(e, u , n, c, o);
+			_.errorHandler.capture(e, u , n, c, o);
 			console.info('running active');
 			
 			console.warn('Error!', o.name + ': ' + e, this);
@@ -97,7 +97,7 @@ Ext.onReady(function(){
 		},
 		displayed: function(e, u , n, c, o) {
 			// Save it to the database first
-			this.capture(e, u , n, c, o);
+			_.errorHandler.capture(e, u , n, c, o);
 
 			/* display an error message from within the app as a modal window */
 			Ext.Msg.alert('Error!', o.name + ':<br />' + e, this);
