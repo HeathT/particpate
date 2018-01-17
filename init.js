@@ -28,6 +28,7 @@ Ext.require([
 // once Ext is ready do all the things - ALL THE THINGS
 Ext.onReady(function(){
 	Ext.create('Ext.container.Viewport', {
+		id: 'viewport',
 		layout: {
 			type: 'border',
 			padding: 3
