@@ -32,19 +32,21 @@ Ext.onReady(function(){
 			type: 'border',
 			padding: 3
 		},
-		{
-			region: 'south',
-			id: 'southPanel',
-			collapsible: false,
-			html: 'Information goes here',
-			split: true,
-			height: 75,
-			minHeight: 50
-		}, {
-			region: 'center',
-			xtype: 'panel', // TabPanel itself has no title
-			id: 'centerPanel'
-		}
+		items: [
+			{
+				region: 'south',
+				id: 'southPanel',
+				collapsible: false,
+				html: 'Information goes here',
+				split: true,
+				height: 75,
+				minHeight: 50
+			}, {
+				region: 'center',
+				xtype: 'panel', // TabPanel itself has no title
+				id: 'centerPanel'
+			}
+		]
 	});
 
 
