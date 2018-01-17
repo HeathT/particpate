@@ -39,8 +39,8 @@ Ext.onReady(function(){
 				collapsible: false,
 				html: 'Information goes here',
 				split: true,
-				height: 75,
-				minHeight: 50
+				height: 40,
+				minHeight: 20
 			}, {
 				region: 'center',
 				xtype: 'panel', // TabPanel itself has no title
@@ -50,8 +50,8 @@ Ext.onReady(function(){
 	});
 
 
-	// Ext.create('widget.window', {
-	Ext.create('window.Window', {
+	Ext.create('widget.window', {
+	// Ext.create('window.Window', {
 		id: 'loginWindow',
 		title: 'Login Window',
 		autoShow: true,
