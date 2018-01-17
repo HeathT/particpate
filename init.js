@@ -27,7 +27,29 @@ Ext.require([
 
 // once Ext is ready do all the things - ALL THE THINGS
 Ext.onReady(function(){
-	Ext.create('widget.window', {
+	Ext.create('Ext.container.Viewport', {
+		layout: {
+			type: 'border',
+			padding: 3
+		},
+		{
+			region: 'south',
+			id: 'southPanel',
+			collapsible: false,
+			html: 'Information goes here',
+			split: true,
+			height: 75,
+			minHeight: 50
+		}, {
+			region: 'center',
+			xtype: 'panel', // TabPanel itself has no title
+			id: 'centerPanel'
+		}
+	});
+
+
+	// Ext.create('widget.window', {
+	Ext.create('window.Window', {
 		id: 'loginWindow',
 		title: 'Login Window',
 		autoShow: true,
@@ -40,6 +62,7 @@ Ext.onReady(function(){
 		closeAction: 'hide',
 		maximizable: false,
 		resizable: false,
+		renderTo: 'centerPanel',
 		width: 400,
 		height: 200,
 		centered: true,
