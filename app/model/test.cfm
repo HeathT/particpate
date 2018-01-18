@@ -20,9 +20,9 @@
 <cfloop query="getLogin">
 	<cfset loopCount = loopCount + 1>
 
-	<cfset myResults = 	myResults & '{'
+	<cfset myResults = 	myResults & '{' />
 						<cfloop index="i" from="0" to="1" step="1">
-							& getLogin[loopCount][i]
+							<cfset myResults = myResults & getLogin[loopCount][i]>
 						</cfloop>
 						<!--- & '"id":"' & getAmenity.amenity_id & '"'
 						& ',"description":"' & getAmenity.description & '"' 
@@ -37,3 +37,5 @@
 	</cfif>
 
 </cfloop>
+
+<cfoutput>#myResults#</cfoutput>
