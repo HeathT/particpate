@@ -15,20 +15,18 @@
 <cfset loopCount = 0>
 <cfset keyCount = 0>
 
+<cfset myResults = util.QueryToArray(getLogin)>
+
+<!---
 <cfset myResults = '{"data":['>
 
 <cfloop query="getLogin">
 	<cfset loopCount = loopCount + 1>
 
 	<cfset myResults = 	myResults & '{' />
-						<!--- <cfloop index="i" from="0" to="1" step="1"> --->
+						<cfloop index="i" from="0" to="1" step="1">
 							<cfset myResults = myResults & getLogin[loopCount]['id'][1]>
-						<!--- </cfloop> --->
-						<!--- & '"id":"' & getAmenity.amenity_id & '"'
-						& ',"description":"' & getAmenity.description & '"' 
-						& ',"amenity":"' & getAmenity.amenity & '"'
-						& ',"active":"' & getAmenity.active & '"'
-						& ',"dtUpdated":"' & left(getAmenity.dtUpdated, (len(getAmenity.dtUpdated)-2)) & '"}'> --->
+						</cfloop> 
 	<cfif loopCount LT getAmenity.recordCount>
 		<cfset myResults = myResults & ','>
 	<cfelse>
@@ -37,5 +35,6 @@
 	</cfif>
 
 </cfloop>
+--->
 
 <cfoutput>#myResults#</cfoutput>
