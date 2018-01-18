@@ -5,7 +5,7 @@
 		<cfargument required="true" type="string" name="password" />
 		<cfargument required="false" type="string" name="method" default="web" />
 
-		<cfquery datasource="projectp" name="getLogin">
+		<cfquery datasource="#application.ds#" name="getLogin">
 			SELECT  id,
 					fname,
 					lname,
@@ -24,7 +24,7 @@
 			<cfreturn false>
 		<cfelse>
 
-			<cfquery datasource="projectp" name="recordlogin">
+			<cfquery datasource="#application.ds#" name="recordlogin">
 				INSERT into loginhistory
 				SET     userid = #getLogin.id#;
 			</cfquery>
