@@ -19,6 +19,8 @@
     <cfinvokeargument name="Data" value="#getLogin#">
 </cfinvoke>
 
+<cfset session.myTest = myResults>
+
 <!--- <cfscript>
 
 	udf = createObject("component", "util"); // UDF = User Defined Functions
