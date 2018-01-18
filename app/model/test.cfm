@@ -15,7 +15,13 @@
 <cfset loopCount = 0>
 <cfset keyCount = 0>
 
-<cfset myResults = util.QueryToArray(getLogin)>
+<cfscript>
+
+	udf = createObject("component", "util");
+
+</cfscript>
+
+<cfset myResults = udf.QueryToArray(getLogin)>
 
 <!---
 <cfset myResults = '{"data":['>
