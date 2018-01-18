@@ -21,9 +21,9 @@
 	<cfset loopCount = loopCount + 1>
 
 	<cfset myResults = 	myResults & '{' />
-						<cfloop index="i" from="0" to="1" step="1">
-							<cfset myResults = myResults & getLogin[loopCount][i]>
-						</cfloop>
+						<!--- <cfloop index="i" from="0" to="1" step="1"> --->
+							<cfset myResults = myResults & getLogin[loopCount]['id'][1]>
+						<!--- </cfloop> --->
 						<!--- & '"id":"' & getAmenity.amenity_id & '"'
 						& ',"description":"' & getAmenity.description & '"' 
 						& ',"amenity":"' & getAmenity.amenity & '"'
