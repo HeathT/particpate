@@ -4,8 +4,6 @@
 	<cffunction name="makeJson" access="private" returntype="array">
 		<!--- I should be able to pass in the query object and loop over it's key/value pairs --->
 		<cfargument required="true" type="query" name="queryObj" />
-		<cfargument >
-
 
 		
 		<cfset myResults = '{"data":['>
