@@ -15,13 +15,18 @@
 <cfset loopCount = 0>
 <cfset keyCount = 0>
 
-<cfscript>
+<cfinvoke component="util" method="QueryToArray" returnvariable="myResults">
+    <cfinvokeargument name="Data" value="#getLogin#">
+</cfinvoke>
 
-	udf = createObject("component", "util");
+<!--- <cfscript>
 
-</cfscript>
+	udf = createObject("component", "util"); // UDF = User Defined Functions
+
+</cfscript> 
 
 <cfset myResults = udf.QueryToArray(getLogin)>
+--->
 
 <!---
 <cfset myResults = '{"data":['>
@@ -43,4 +48,13 @@
 </cfloop>
 --->
 
-<cfoutput>#myResults#</cfoutput>
+<cfloop array="#myResults#" index="i">
+	<cfset loopCount = loopCount + 1>
+
+	<cfif i LT myResults.length>
+		<cfoutput>
+			#myResults[i]#		
+		</cfoutput>
+	</cfif>
+</cfloop>
+
