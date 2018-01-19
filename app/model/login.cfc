@@ -1,6 +1,6 @@
 <cfcomponent displayname="login" output="false">
 
-	<cffunction access="public" returnType="query" name="verify"> 
+	<cffunction access="remote" returnType="any" returnFormat="JSON" name="verify"> 
 		<cfargument required="true" type="string" name="username" />
 		<cfargument required="true" type="string" name="password" />
 		<cfargument required="false" type="string" name="method" default="web" />
@@ -25,11 +25,21 @@
 		<cfelse>
 
 			<cfquery datasource="#application.ds#" name="recordlogin">
-				INSERT into loginhistory
-				SET     userid = #getLogin.id#;
+				INSERT 	into loginhistory
+				SET		userid = #getLogin.id#;
 			</cfquery>
 
-			<cfreturn getLogin> 
+			<cfquery datasource="#application.ds#" name="setLastLogin">
+				UPDATE user
+				SET    lastlogin = CURRENT_TIMESTAMP
+				WHERE  id = #getLogin.id#
+			</cfquery>
+
+			<cfinvoke component="util" method="makeJSON" returnvariable="q2aResults">
+				<cfinvokeargument name="queryObj" value="#getLogin#">
+			</cfinvoke>
+
+			<cfreturn q2aResults> 
 		</cfif>
 
 	</cffunction>

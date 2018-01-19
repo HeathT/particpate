@@ -13,3 +13,7 @@
 <cfparam name="application.cfcPath" default="participate.model"> 	<!--- path to cfc directory --->
 <cfset application.root="http://#application.httpProxy#/participate/"> 		<!--- used to provide the root path --->
 <cfset application.ds="projectp">
+
+<cfset application.debugging = true>
+
+

@@ -1,62 +1,93 @@
 <cfcomponent displayname="util" output="false">
 
 <!--- JSON SERIALIZER --->
-	<cffunction name="makeJson" access="private" returntype="array">
+	<cffunction name="makeJSON" access="public" returntype="any">
 		<!--- I should be able to pass in the query object and loop over it's key/value pairs --->
 		<cfargument required="true" type="query" name="queryObj" />
+		<cfargument required="false" type="boolean" name="doColumns" default="false" />
 
-		
-		<cfset myResults = '{"data":['>
-		<cfset loopCount = 0>
-		<cfset keyCount = 0>
-		<cfloop query="queryObj">
-			<cfset loopCount = loopCount + 1>
-			<!--- <cfset myResults = 	myResults & '{'
-								<cfloop index="i" from=""></cfloop>
-								& '"id":"' & getAmenity.amenity_id & '"'
-								& ',"description":"' & getAmenity.description & '"' 
-								& ',"amenity":"' & getAmenity.amenity & '"'
-								& ',"active":"' & getAmenity.active & '"'
-								& ',"dtUpdated":"' & left(getAmenity.dtUpdated, (len(getAmenity.dtUpdated)-2)) & '"}'>
-			<cfif loopCount LT getAmenity.recordCount>
-				<cfset myResults = myResults & ','>
-			<cfelse>
-				<cfset myResults = myResults & ']}'>
-				<cfbreak />
-			</cfif> --->
+		<cfinvoke method="queryToArray" returnvariable="myResults">
+			<cfinvokeargument name="data" value="#queryObj#">
+		</cfinvoke>
+
+		<cfset packet = '{"ROWCOUNT":' & queryObj.recordCount & ',' />
+		<cfset rowData = '"DATA":[' />
+		<cfset columnInfo = '"COLUMNS":[' /> <!--- build the COLUMNS array header --->
+		<cfset doColumns = arguments.doColumns />
+
+		<cfloop from="1" to="#arrayLen(myResults)#" index="i"> <!--- loop through records --->
+
+			<cfset keyCount = 1 />
+			<cfset thisRow = myResults[i] /> <!--- each record is retrieved by it's array ordinal --->
+
+			<cfset rowData = rowData & '{' />
+			<cfloop collection="#thisRow#" item="key"> <!--- loop through key/value pairs per row --->
+				<cfset rowData = rowData & '"#key#":' & '"#thisRow[key]#"'>
+				<cfif doColumns><cfset columnInfo = columnInfo & '"#key#"' /></cfif> <!--- if the columns still need to be built, add the key --->
+
+				<cfif keyCount LT structCount(thisRow)> <!--- add a comma between the values if there is another value after this one --->
+					<cfset rowData = rowData & ','>
+					<cfif doColumns><cfset columnInfo = columnInfo & ',' /></cfif> <!--- if the columns still need to be built and this isn't the last key, add a comma --->
+				</cfif>
+
+				<cfset keyCount = keyCount + 1>
+			</cfloop>
+
+			<cfif doColumns>
+				<cfset columnInfo = columnInfo & ']' /> <!--- close off the COLUMNS array --->
+				<cfset doColumns = false /> <!--- indicate that the columns are done being built so that functionality will be skipped for remaining records --->
+			</cfif>
+			
+			<cfset rowData = rowData & '}'> <!--- Close off the record --->
+			<cfif i LT arrayLen(myResults)> <!--- If this isn't the last record, we add a comma between it and the next record --->
+				<cfset rowData = rowData & ','>
+			</cfif>
 		</cfloop>
+
+		<cfset rowData = rowData & ']' />
+		<cfif arguments.doColumns>  <!--- if the column headers are supposed to be included, include them --->
+			<cfset packet = packet & columnInfo & ',' & rowData />
+		</cfif>
+		<cfset packet = packet & rowData />
+		<cfset packet = packet & '}' />
+
+		<cfreturn packet />
 	</cffunction>
 
 
-	<cffunction name="QueryToArray" access="public" returntype="array" output="false" hint="This turns a query into an array of structures.">
 
-		<!--- Define arguments. --->
-		<cfargument name="Data" type="query" required="yes" />
+	<cffunction name="queryToArray" returntype="array" access="private" output="yes">
+		<cfargument name="data" type="query" required="yes" />
 
-		<cfscript>
-			// Define the local scope.
-			var LOCAL = StructNew();
-			// Get the column names as an array.
-			LOCAL.Columns = ListToArray( ARGUMENTS.Data.ColumnList );
-			// Create an array that will hold the query equivalent.
-			LOCAL.QueryArray = ArrayNew( 1 );
-			// Loop over the query.
-			for (LOCAL.RowIndex = 1 ; LOCAL.RowIndex LTE ARGUMENTS.Data.RecordCount ; LOCAL.RowIndex = (LOCAL.RowIndex + 1)){
-				// Create a row structure.
-				LOCAL.Row = StructNew();
-				// Loop over the columns in this row.
-				for (LOCAL.ColumnIndex = 1 ; LOCAL.ColumnIndex LTE ArrayLen( LOCAL.Columns ) ; LOCAL.ColumnIndex = (LOCAL.ColumnIndex + 1)){
-					// Get a reference to the query column.
-					LOCAL.ColumnName = LOCAL.Columns[ LOCAL.ColumnIndex ];
-					// Store the query cell value into the struct by key.
-					LOCAL.Row[ LOCAL.ColumnName ] = ARGUMENTS.Data[ LOCAL.ColumnName ][ LOCAL.RowIndex ];
-				}
-				// Add the structure to the query array.
-				ArrayAppend( LOCAL.QueryArray, LOCAL.Row );
-			}
-			// Return the array equivalent.
-			return( LOCAL.QueryArray );
-		</cfscript>
+		<cfset var a = ArrayNew(1)>
+		<cfset var i = 0> <!--- generic (i)ndex init --->
+		<cfset var r = 0> <!--- generic (r)ow counter --->
+
+		<cfloop query="arguments.data">
+			<cfset r = Currentrow>
+
+			<cfloop index="i" list="#LCase(arguments.data.columnList)#">
+				<cfset a[r][i] = Evaluate(i)>
+			</cfloop>
+
+		</cfloop>
+
+		<cfreturn a>
+
+		<!--- <cfreturn SerializeJSON(a)> --->
+	</cffunction>
+
+
+
+	<cffunction name="dumpDebug" access="public" returntype="struct" output="false">
+		<cfargument name="_debug" default="false" required="false" />
+		<cfargument name="_scope" default="session" required="false" />
+		<cfargument name="_abort" default="" required="false" />
+
+		<cfif application.debugging>
+			<cfdump var="#_scope#" _abort/>
+		</cfif>
+
 	</cffunction>
 
 </cfcomponent>
