@@ -10,34 +10,6 @@
 // create a global variable for our application - this will later need to be minified and obfiscated
 var _ = _ || {};
 
-_.scheme = {
-	default: {
-		name:	'crisp',
-		path:	'ext-5.0.1/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all.css'
-	},
-	change: function(n){
-		for(i=0;i<_.scheme.allowed.length-1;i++){
-			if(_.scheme.allowed[i].name === n){
-				// load the CSS class to change styles
-				Ext.getHead().dom.innerHTML = Ext.getHead().dom.innerHTML + '<link rel=\"stylesheet\" type=\"text/css\" href=\"' + _.scheme.allowed[i].path + '">'
-			}
-		}
-	},
-	allowed:[
-		{
-			name:	'aria',
-			path:	'ext-5.0.1/packages/ext-theme-aria/build/resources/ext-theme-aria-all.css'
-		},
-		{
-			name:	'crisp',
-			path:	'ext-5.0.1/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all.css'
-		},
-		{
-			name:	'neptune',
-			path:	'ext-5.0.1/packages/ext-theme-neptune/build/resources/ext-theme-neptune-all.css'
-		}
-	]
-}
 
 
 // specify which libraries to load as part of this init
@@ -55,7 +27,32 @@ Ext.require([
 
 // once Ext is ready do all the things - ALL THE THINGS
 Ext.onReady(function(){
+	Ext.create('Ext.container.Viewport', {
+		id: 'viewport',
+		layout: {
+			type: 'border',
+			padding: 3
+		},
+		items: [
+			{
+				region: 'south',
+				id: 'southPanel',
+				collapsible: false,
+				html: 'Information goes here',
+				split: true,
+				height: 40,
+				minHeight: 20
+			}, {
+				region: 'center',
+				xtype: 'panel', // TabPanel itself has no title
+				id: 'centerPanel'
+			}
+		]
+	});
+
+
 	Ext.create('widget.window', {
+	// Ext.create('window.Window', {
 		id: 'loginWindow',
 		title: 'Login Window',
 		autoShow: true,
@@ -68,6 +65,7 @@ Ext.onReady(function(){
 		closeAction: 'hide',
 		maximizable: false,
 		resizable: false,
+		renderTo: 'centerPanel',
 		width: 400,
 		height: 200,
 		centered: true,
@@ -86,14 +84,15 @@ Ext.onReady(function(){
 				fieldLabel: 'Username',
 				id: 		'username',
 				allowBlank: false,
-				emptyText: 	'(required)'
+				emptyText: 	'required'
 			},{
 				xtype: 		'textfield',
 				padding: 	'5 0 0 15',
 				fieldLabel: 'Password',
 				id:			'password',
 				allowBlank: false,
-				emptyText: 	'(required)'
+				inputType: 	'password',
+				emptyText: 	'required'
 			}],
 			buttons:[
 				{
@@ -113,7 +112,21 @@ Ext.onReady(function(){
 							},
 							success: function(response){
 								// process server response here
-								console.info(response.responseText);
+								var _local = {};
+
+								_local.rt = Ext.JSON.decode(response.responseText);
+
+								_local.keys = _.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify.getLogin');
+
+								_local.recordcount = _local.rt.ROWCOUNT;
+								_local.records = _.ajax.getRecords(_local.rt, 'loginInfo', 'login.verify.getLogin');
+
+
+								_.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify');	
+
+								_.userinfo = _local;
+
+								console.info(_local);
 							}
 						});
 					}
@@ -122,13 +135,14 @@ Ext.onReady(function(){
 
 		}
 		],
-		listeners: [{
-
-		}]
+		listeners: {
+			// Adding a listener to the loginWindow object to ensure it remains centered upon window resize
+			// Later on, we may want to make an action and then call the action with the listener 
+			render: function(){
+				_.action.centerLogin;
+			}
+		}
 	});
+
 });
-
-
-
-
 
