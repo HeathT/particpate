@@ -4,16 +4,16 @@
 	<cffunction name="makeJSON" access="public" returntype="any">
 		<!--- I should be able to pass in the query object and loop over it's key/value pairs --->
 		<cfargument required="true" type="query" name="queryObj" />
-		<cfargument required="false" type="boolean" name="doColumns" default="false" />
+		<cfargument required="false" type="boolean" name="sendColumns" default="true" />
 
 		<cfinvoke method="queryToArray" returnvariable="myResults">
 			<cfinvokeargument name="data" value="#queryObj#">
 		</cfinvoke>
 
-		<cfset packet = '{"ROWCOUNT":' & queryObj.recordCount & ',' />
-		<cfset rowData = '"DATA":[' />
-		<cfset columnInfo = '"COLUMNS":[' /> <!--- build the COLUMNS array header --->
-		<cfset doColumns = arguments.doColumns />
+		<cfset packet = '{"ROWCOUNT":' & queryObj.recordCount />
+		<cfset rowData = ', "DATA":[' />
+		<cfset columnInfo = ', "COLUMNS":[' /> <!--- build the COLUMNS array header --->
+		<cfset doColumns = arguments.sendColumns />
 
 		<cfloop from="1" to="#arrayLen(myResults)#" index="i"> <!--- loop through records --->
 
@@ -45,8 +45,8 @@
 		</cfloop>
 
 		<cfset rowData = rowData & ']' />
-		<cfif arguments.doColumns>  <!--- if the column headers are supposed to be included, include them --->
-			<cfset packet = packet & columnInfo & ',' & rowData />
+		<cfif arguments.sendColumns>  <!--- if the column headers are supposed to be included, include them --->
+			<cfset packet = packet & columnInfo />
 		</cfif>
 		<cfset packet = packet & rowData />
 		<cfset packet = packet & '}' />

@@ -84,14 +84,15 @@ Ext.onReady(function(){
 				fieldLabel: 'Username',
 				id: 		'username',
 				allowBlank: false,
-				emptyText: 	'(required)'
+				emptyText: 	'required'
 			},{
 				xtype: 		'textfield',
 				padding: 	'5 0 0 15',
 				fieldLabel: 'Password',
 				id:			'password',
 				allowBlank: false,
-				emptyText: 	'(required)'
+				inputType: 	'password',
+				emptyText: 	'required'
 			}],
 			buttons:[
 				{
@@ -111,7 +112,21 @@ Ext.onReady(function(){
 							},
 							success: function(response){
 								// process server response here
-								console.info(response.responseText);
+								var _local = {};
+
+								_local.rt = Ext.JSON.decode(response.responseText);
+
+								_local.keys = _.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify.getLogin');
+
+								_local.recordcount = _local.rt.ROWCOUNT;
+								_local.records = _.ajax.getRecords(_local.rt, 'loginInfo', 'login.verify.getLogin');
+
+
+								_.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify');	
+
+								_.userinfo = _local;
+
+								console.info(_local);
 							}
 						});
 					}

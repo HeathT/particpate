@@ -39,6 +39,12 @@
 				<cfinvokeargument name="queryObj" value="#getLogin#">
 			</cfinvoke>
 
+			<!--- set session variables so we're not requiring information from the front end --->
+			<cfset session.userInfo = {} />
+			<cfset session.userInfo.userid = getLogin.id />
+			<cfset session.userInfo.fname = getLogin.fname />
+			<cfset session.userInfo.lastlogin = getLogin.lastlogin />
+
 			<cfreturn q2aResults> 
 		</cfif>
 
