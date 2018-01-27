@@ -56,7 +56,7 @@
 
 
 
-	<cffunction name="queryToArray" returntype="array" access="private" output="yes">
+	<cffunction name="queryToArray" returntype="array" access="public" output="yes">
 		<cfargument name="data" type="query" required="yes" />
 
 		<cfset var a = ArrayNew(1)>
@@ -80,12 +80,13 @@
 
 
 	<cffunction name="dumpDebug" access="public" returntype="struct" output="false">
-		<cfargument name="_debug" default="false" required="false" />
-		<cfargument name="_scope" default="session" required="false" />
+		<cfargument name="_scope" default="" required="true" type="struct" />
 		<cfargument name="_abort" default="" required="false" />
 
+		<cfset dumpVar = arguments._scope />
+
 		<cfif application.debugging>
-			<cfdump var="#_scope#" _abort/>
+			<cfdump var="#eval(arguments._scope)#" _abort/>
 		</cfif>
 
 	</cffunction>

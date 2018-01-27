@@ -19,15 +19,18 @@
 
 
 			<cfquery datasource="#application.ds#" name="getLogin">
-				SELECT  id,
-						fname,
-						lname,
-						username,
-						active,
-						role,
-						lastlogin,
-						created
-				FROM    user
+				SELECT  u.id,
+						u.fname,
+						u.lname,
+						u.username,
+						u.active,
+						u.role,
+						u.lastlogin,
+						u.created,
+						r.admin,
+						r.superadmin
+				FROM    user u INNER JOIN
+						role r ON u.role = r.id
 				WHERE   username = '#arguments.username#'
 				AND     password = '#newPass#'
 				AND     active = 1
@@ -87,6 +90,10 @@
 				<cfset session.userInfo.userid = getLogin.id />
 				<cfset session.userInfo.fname = getLogin.fname />
 				<cfset session.userInfo.lastlogin = getLogin.lastlogin />
+
+				<cfset session.userInfo.role = getLogin.role />
+				<cfset session.userInfo.admin = getLogin.admin />
+				<cfset session.userInfo.superadmin = getLogin.superadmin />
 
 				<cfreturn q2aResults> 
 			</cfif>

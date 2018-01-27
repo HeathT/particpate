@@ -19,14 +19,31 @@
 </cfinvoke> --->
 
 
+<cfinvoke method="verify" component="login" returnvariable="loggedUser">
+	<cfinvokeargument name="username" value="Heath" />
+	<cfinvokeargument name="password" value="8675309" />
+</cfinvoke>
+<br />
+<cfdump var="#loggedUser#" />
+
 <br /><br />
 
 <cfinvoke method="findUser" component="user" returnvariable="test2">
-	<cfinvokeargument name="email" value="heath.thompson@gmail.com" />
+	<cfinvokeargument name="username" value="Heath" />
 </cfinvoke>
 
 <br /><br />
 <cfdump var="#test2#" label="Return from method: findUser" />
 
+
 <br /><br />
-<cfdump var="#session#" />
+<cfinvoke method="createSession" component="session" returnvariable="allThings">
+	<cfinvokeargument name="userInfo" value="#test2#" />
+</cfinvoke>
+
+<br /><br />
+<cfdump var="#session#" label="Session Information" />
+
+<br /><br />
+
+

@@ -51,28 +51,45 @@
 		<cfargument name="lname" required="false" default="" type="string" />
 		<cfargument name="email" required="false" default="" type="string" />
 		<cfargument name="phone" required="false" default="" type="string" />
-		<!--- if the list of arguments change, the query below should automatically add it to the SELECT statement --->
+		<cfargument name="role" required="false" default="" type="string" />
+
+		
+		<!--- only pass adminCheck if you are performing an admin function (ie. change password) --->
+		<cfargument name="admincheck" required="false" default="false" type="boolean" />
 
 		<cfset thisArgs = structKeyArray(arguments) />
 
-		<cfdump var="#thisArgs#" label="The arguments object" />
 
+		<!--- if the list of arguments change, the query below should automatically add it to the SELECT statement --->
 		<cfquery datasource="#application.ds#" name="getLogin">
-			SELECT  u.id 'userid',
-					u.fname 'first',
-					u.lname 'last',
+			SELECT  u.id,
+					u.fname,
+					u.lname,
 					u.username,
 					u.active,
-					u.lastlogin 'last login',
-					u.created 'created on',
-					r.name AS 'role'
+					u.lastlogin,
+					u.created,
+					<cfif arguments.admincheck> <!--- only collect these if there is an admin func occuring --->
+					u.privacykey 'key',
+					u.password,
+					</cfif>
+					u.role,
+					r.sponsor,
+					r.coordinator,
+					r.monitor,
+					r.volunteer,
+					r.admin,
+					r.superadmin,
+					r.name AS 'rolename'
 			FROM    user u INNER JOIN
 					role r ON u.role = r.id
 			WHERE   1=1
-			<cfloop from="1" to="#arrayLen(thisArgs)#" index="i"> <!--- loop through all the arguments and build the statement --->
+			<cfloop from="1" to="#arrayLen(thisArgs)#" index="i"> <!--- loop through all the passed arguments and build the statement based on only those - if none passed, find all records --->
 				<cfset tempVar = evaluate("arguments." & #lcase(thisArgs[i])#) />
-				<cfif isDefined('tempVar') AND tempVar GT ''>
+				<cfif isDefined('tempVar') AND tempVar GT '' AND lcase(thisArgs[i]) NEQ 'admincheck' AND lcase(thisArgs[i]) NEQ 'id'>
 					AND	#lcase(thisArgs[i])# = '#tempVar#'
+				<cfelseif isDefined('tempVar') AND tempVar GT '' AND lcase(thisArgs[i]) EQ 'id'>
+					AND	#lcase(thisArgs[i])# = #tempVar#
 				</cfif>				
 			</cfloop>
 		</cfquery> 
@@ -85,30 +102,91 @@
 
 
 	<cffunction name="updateUser" access="public" returntype="any"  hint="(crUd)  Update the user information">
+		<!--- this update will not allow password to be changed - please see password.cfc --->
+		<cfargument name="id" required="true" default="" type="numeric" />
 
+		<cfargument name="username" required="false" default="" type="string" />
+		<cfargument name="fname" required="false" default="" type="string" />
+		<cfargument name="lname" required="false" default="" type="string" />
+		<cfargument name="role" required="false" default="" type="string" />
+		<cfargument name="phone" required="false" default="" type="string" />
+		<cfargument name="email" required="false" default="" type="string" />
+
+
+		<cfset thisArgs = structKeyArray(arguments) />
+		<cfdump var="#thisArgs#" label="The arguments object" />
+
+		<cfif isDefined(session.userInfo.userid) AND (session.userInfo.userid EQ arguments.id OR session.userInfo.admin) AND arguments.id GTE 0>  <!--- user is making a profile update or an admin is making one on another user --->
+			<cfquery datasource="#application.ds#" name="updateUser">
+				UPDATE 	user
+				SET 	updated = CURRENT_TIMESTAMP
+				<cfloop from="1" to="#arrayLen(thisArgs)#" index="i"> <!--- loop through all the passed arguments and build the statement based on only those - if none passed, find all records --->
+					<cfset tempVar = evaluate("arguments." & #lcase(thisArgs[i])#) />
+					<cfif isDefined('tempVar') AND tempVar GT '' AND lcase(thisArgs[i]) NEQ 'id'>
+						,#lcase(thisArgs[i])# = '#tempVar#'
+					</cfif>				
+				</cfloop>
+				WHERE	id = #arguments.id#
+			</cfquery>
+		</cfif>
+
+		<!--- TODO: NEEDS A RETURN VALUE --->
+		<cfreturn false />
 	</cffunction>
 
 
 
 
 	<cffunction name="deactivateUser" access="public" returntype="any"  hint="(cruD) Deactivate a user in the system">
+		<cfargument name="id" required="true" default="" type="numeric" />
+
+		<cfquery datasource="#application.ds#" name="deactivateUser">
+			UPDATE 	user
+			SET 	active = 0,
+					updated = CURRENT_TIMESTAMP
+			WHERE	id = #arguments.id#
+		</cfquery>
 
 
+		<!--- TODO: NEEDS A RETURN VALUE --->
+		<cfreturn false />
+	</cffunction>
+
+
+
+
+	<cffunction name="activateUser" access="public" returntype="any"  hint="Activate a user in the system">
+		<cfargument name="id" required="true" default="" type="numeric" />
+
+		<cfquery datasource="#application.ds#" name="activateUser">
+			UPDATE 	user
+			SET 	active = 1,
+					updated = CURRENT_TIMESTAMP
+			WHERE	id = #arguments.id#
+		</cfquery>
+
+
+		<!--- TODO: NEEDS A RETURN VALUE --->
+		<cfreturn false />
 	</cffunction>
 
 
 
 
 	<cffunction name="markVerified" access="public" returntype="any" hint="used to verify a volunteer by email or a sponsor/monitor via a coordinator screen">
+		<cfargument name="id" required="true" default="" type="numeric" />
 
-	</cffunction>
+		<cfquery datasource="#application.ds#" name="verifyUser">
+			UPDATE 	user
+			SET 	verified = 1,
+					updated = CURRENT_TIMESTAMP,
+					verifiedon = CURRENT_TIMESTAMP
+			WHERE	id = #arguments.id#
+		</cfquery>
 
 
-
-
-	<cffunction name="changePass" access="public" returntype="any" hint="used to allow the user to change their password">
-
-
+		<!--- TODO: NEEDS A RETURN VALUE --->
+		<cfreturn false />
 	</cffunction>
 
 </cfcomponent>
