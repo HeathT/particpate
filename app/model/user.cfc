@@ -7,6 +7,8 @@
 		<cfargument name="lastname" required="true" type="string" />
 		<cfargument name="password" required="true" type="string" />
 		<cfargument name="email" required="true" type="string" />
+		<cfargument name="role" required="false" type="numeric" default="1" />
+		<cfargument name="courtappointed" required="false" type="numeric" default="0" />
 
 		<cfargument name="phone" required="false" type="string" />
 
@@ -36,9 +38,13 @@
 						fname = '#arguments.firstname#',
 						lname = '#arguments.lastname#',
 						email = '#arguments.email#',
+						courtappointed = #arguments.courtappointed#,
+						role = #arguments.role#,
 						privacykey = '#key#',
 						password = '#password#'
 			</cfquery>
+		<cfelse>
+			<cfdump var="Username already exists!" />
 		</cfif>
 	</cffunction>
 
@@ -80,7 +86,8 @@
 					r.volunteer,
 					r.admin,
 					r.superadmin,
-					r.name AS 'rolename'
+					r.name AS 'rolename',
+					u.courtappointed
 			FROM    user u INNER JOIN
 					role r ON u.role = r.id
 			WHERE   1=1

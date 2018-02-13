@@ -25,7 +25,7 @@ Ext.onReady(function(){
 			queryName: 'The name of the query within the called method found in which CFC - format: cfc.method.query'
 		},
 		getKeys: function(responseObj, storageObj, queryName){
-			var _local = {};
+			let _local = {};
 			_local.arrayObj = responseObj.COLUMNS || [];
 			_local.keys = [];
 
@@ -40,7 +40,7 @@ Ext.onReady(function(){
 			return _local.returnObj;
 		},
 		getRecords: function(responseObj, storageObj, queryName){
-			var _local = {};
+			let _local = {};
 			_local.arrayObj = responseObj.DATA || [];
 
 			if(_local.arrayObj.length){

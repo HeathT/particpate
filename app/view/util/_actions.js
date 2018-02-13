@@ -18,6 +18,14 @@ Ext.onReady(function(){
 				_.util.debug(_.action.centerLogin.desc, 'warn');
 				Ext.getWin().on("resize", Ext.getCmp('loginWindow').center(), this);
 			}
+		}),
+		submitBtn: new Ext.Action({
+			text: 		'Login',
+			iconCls: 	'',
+			desc: 		'Login to the application',
+			handler: function(){
+
+			}
 		})
 	}
 });

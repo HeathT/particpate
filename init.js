@@ -27,6 +27,9 @@ Ext.require([
 
 // once Ext is ready do all the things - ALL THE THINGS
 Ext.onReady(function(){
+
+	var local = {};
+
 	Ext.create('Ext.container.Viewport', {
 		id: 'viewport',
 		layout: {
@@ -51,48 +54,85 @@ Ext.onReady(function(){
 	});
 
 
+	local.username = new Ext.form.field.Text({
+		// xtype: 		'textfield',
+		padding: 	'20 0 0 15',
+		fieldLabel: 'User Name',
+		id: 		'username',
+		name: 		'username',
+		allowBlank:  false,
+		labelAlign: 'right',
+		emptyText: 	'required',
+		focusable:   true,
+		enableKeyEvents: true,
+		listeners: {
+			keyup: function(thisObj, e) {
+				// console.info(e.getKey()); //this is work
+				if(e.getKey() === 13){
+						if(!Ext.getCmp('password').value){
+							Ext.getCmp('password').focus(true, 100);
+						} else {
+							Ext.getCmp('loginForm').submit();
+						}
+				}
+			}
+		}
+	});
+
+
 	Ext.create('widget.window', {
-	// Ext.create('window.Window', {
-		id: 'loginWindow',
-		title: 'Login Window',
-		autoShow: true,
+		id: 		'loginWindow',
+		title: 		'Please login',
+		autoShow: 	true,
 		header: {
 			titlePosition: 2,
 			titleAlign: 'center'
 		},
-		closable: false,
-		draggable: false,
+		closable: 	false,
+		draggable: 	false,
 		closeAction: 'hide',
 		maximizable: false,
-		resizable: false,
-		renderTo: 'centerPanel',
-		width: 400,
-		height: 200,
-		centered: true,
+		resizable: 	false,
+		renderTo: 	'centerPanel',
+		width: 		350,
+		height: 	175,
+		centered: 	true,
 		layout: {
 			type: 'border',
-			padding: 3
+			padding: 2
 		},
 		items: [
 		{
 			region: 'center',
-			xtype: 'form',
-			id:	'loginForm',
-			items: [{
-				xtype: 		'textfield',
-				padding: 	'20 0 0 15',
-				fieldLabel: 'Username',
-				id: 		'username',
-				allowBlank: false,
-				emptyText: 	'required'
-			},{
+			xtype:  'form',
+			id:		'loginForm',
+			name: 	'loginForm',
+			style: {
+				width: 340
+			},
+			items: [
+				local.username
+			,{
 				xtype: 		'textfield',
 				padding: 	'5 0 0 15',
 				fieldLabel: 'Password',
 				id:			'password',
-				allowBlank: false,
+				allowBlank:  false,
 				inputType: 	'password',
-				emptyText: 	'required'
+				labelAlign: 'right',
+				emptyText: 	'required',
+				listeners: {
+					keyup: function(thisObj, e) {
+						// console.info(e.getKey()); //this is work
+						if(e.getKey() === 13){
+								if(!Ext.getCmp('username').value){
+									Ext.getCmp('username').focus(true, 100);
+								} else {
+									Ext.getCmp('loginForm').submit();
+								}
+						}
+					}
+				}
 			}],
 			buttons:[
 				{
@@ -118,15 +158,25 @@ Ext.onReady(function(){
 
 								_local.keys = _.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify.getLogin');
 
-								_local.recordcount = _local.rt.ROWCOUNT;
-								_local.records = _.ajax.getRecords(_local.rt, 'loginInfo', 'login.verify.getLogin');
+								if(_local.rt.FAILURE){
+									// Login failure
+									console.warn(_local.rt.FAILURE);
+									console.info(_local);
+								} else {
+									// Valid login
+									_local.recordcount = _local.rt.ROWCOUNT;
+									_local.records = _.ajax.getRecords(_local.rt, 'loginInfo', 'login.verify.getLogin');
 
+									_.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify');	
 
-								_.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify');	
+									_.userinfo = _local;
 
-								_.userinfo = _local;
-
-								console.info(_local);
+									// Hide the window
+									Ext.getCmp('loginWindow').hide();
+								}
+							},
+							failure: function(response){
+								return false;
 							}
 						});
 					}
@@ -138,7 +188,15 @@ Ext.onReady(function(){
 		listeners: {
 			// Adding a listener to the loginWindow object to ensure it remains centered upon window resize
 			// Later on, we may want to make an action and then call the action with the listener 
-			render: function(){
+			afterrender: function(thisObj, e){
+				Ext.getCmp('username').focus(true, 50);
+				console.info(thisObj);
+				console.warn('username rendered');
+
+				// Adjust the visuals - this should be changed at some point
+				Ext.get('loginWindow-body').dom.className = Ext.get('loginWindow-body').dom.className + ' x-window-login-body'
+				
+				// Center the login prompt
 				_.action.centerLogin;
 			}
 		}

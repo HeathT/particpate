@@ -11,13 +11,16 @@
 <cfset session.userInfo.sessionid = session.sessionid />
 
 <!--- <cfinvoke method="createUser" component="user" returnvariable="test">
-	<cfinvokeargument name="username" value="Jimmy008" />
-	<cfinvokeargument name="firstname" value="Impostor" />
-	<cfinvokeargument name="lastname" value="Bond" />
-	<cfinvokeargument name="password" value="stirred" />
-	<cfinvokeargument name="email" value="ib008@evil.plot.com" />
-</cfinvoke> --->
-
+	<cfinvokeargument name="username" value="Soccervol" />
+	<cfinvokeargument name="firstname" value="Volunteer" />
+	<cfinvokeargument name="lastname" value="Youth" />
+	<cfinvokeargument name="password" value="123" />
+	<cfinvokeargument name="email" value="junkemail@reallybademail.com" />
+	<cfinvokeargument name="role" value="2" />
+	<cfinvokeargument name="courtappointed" value="0" />
+</cfinvoke>
+<br /><br />
+ --->
 
 <cfinvoke method="verify" component="login" returnvariable="loggedUser">
 	<cfinvokeargument name="username" value="Heath" />

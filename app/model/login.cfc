@@ -5,6 +5,7 @@
 		<cfargument required="true" type="string" name="password" />
 		<cfargument required="false" type="string" name="method" default="web" />
 
+		<!--- verify the user exists, has a key, and is active --->
 		<cfquery datasource="#application.ds#" name="getKey">
 			SELECT	privacykey
 			FROM 	user
@@ -13,10 +14,11 @@
 			AND		active = 1
 		</cfquery>
 
+		<cfset returnVal = '{"ROWCOUNT":0, "COLUMNS":[], "DATA":[], "FAILURE": "User name and password mismatch!"}' /> <!--- stock failure message if we need it later --->
+
 		<cfif getKey.recordcount GT 0> <!--- valid user as it has an existing username, is active, and has a valid key -- now to validate the login credentials --->
 
 			<cfset newPass =  encrypt(arguments.password, getKey.privacykey, 'AES', 'HEX') />
-
 
 			<cfquery datasource="#application.ds#" name="getLogin">
 				SELECT  u.id,
@@ -28,7 +30,8 @@
 						u.lastlogin,
 						u.created,
 						r.admin,
-						r.superadmin
+						r.superadmin,
+						u.courtappointed
 				FROM    user u INNER JOIN
 						role r ON u.role = r.id
 				WHERE   username = '#arguments.username#'
@@ -62,8 +65,7 @@
 							isfailure = 1
 				</cfquery>
 
-
-				<cfreturn false>
+				<cfreturn returnVal>
 
 
 			<cfelse> <!--- valid user and the login information is  --->
@@ -101,7 +103,7 @@
 		<cfelse> <!--- Username does not exist or user is not active or user does not have a valid key --->
 
 
-			<cfreturn false>
+			<cfreturn returnVal>
 
 		</cfif>
 
