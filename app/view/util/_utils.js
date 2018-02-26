@@ -2,6 +2,7 @@
 // init the global variable if it doesn't exist
 var _ = _ || {};
 
+
 // Wait for Ext to ready-up
 Ext.onReady(function(){
 
@@ -15,8 +16,8 @@ Ext.onReady(function(){
 				console[type](msg);
 			}
 		}
-	}
-
+	};
+	
 	_.ajax = {
 		description: 'Methods for working with AJAX requests throughout the application',
 		help: {
@@ -53,8 +54,7 @@ Ext.onReady(function(){
 			return _[storageObj].recordset;
 		}
 
-	}
-
+	};
 
 	// Handle themes
 	_.theme = {
@@ -86,3 +86,4 @@ Ext.onReady(function(){
 		]
 	}
 });
+
