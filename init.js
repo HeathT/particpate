@@ -102,88 +102,88 @@ Ext.onReady(function(){
 			padding: 2
 		},
 		items: [
-		{
-			region: 'center',
-			xtype:  'form',
-			id:		'loginForm',
-			name: 	'loginForm',
-			style: {
-				width: 340
-			},
-			items: [
-				local.username
-			,{
-				xtype: 		'textfield',
-				padding: 	'5 0 0 15',
-				fieldLabel: 'Password',
-				id:			'password',
-				allowBlank:  false,
-				inputType: 	'password',
-				labelAlign: 'right',
-				emptyText: 	'required',
-				listeners: {
-					keyup: function(thisObj, e) {
-						// console.info(e.getKey()); //this is work
-						if(e.getKey() === 13){
-								if(!Ext.getCmp('username').value){
-									Ext.getCmp('username').focus(true, 100);
-								} else {
-									Ext.getCmp('loginForm').submit();
+			{
+				region: 'center',
+				xtype:  'form',
+				id:		'loginForm',
+				name: 	'loginForm',
+				style: {
+					width: 340
+				},
+				items: [
+					local.username,
+					{
+						xtype: 		'textfield',
+						padding: 	'5 0 0 15',
+						fieldLabel: 'Password',
+						id:			'password',
+						allowBlank:  false,
+						inputType: 	'password',
+						labelAlign: 'right',
+						emptyText: 	'required',
+						listeners: {
+							keyup: function(thisObj, e) {
+								// console.info(e.getKey()); //this is work
+								if(e.getKey() === 13){
+										if(!Ext.getCmp('username').value){
+											Ext.getCmp('username').focus(true, 100);
+										} else {
+											Ext.getCmp('loginForm').submit();
+										}
 								}
+							}
 						}
 					}
-				}
-			}],
-			buttons:[
-				{
-					text: 'Sign-up'
-				},
-				'->',
-				{
-					text: 'Login',
-					handler: function() {
-						Ext.Ajax.request({
-							url: 'app/model/login.cfc',
-							method: 'POST',
-							params: {
-								username: Ext.getCmp('username').value,
-								password: Ext.getCmp('password').value,
-								method: 'verify'
-							},
-							success: function(response){
-								// process server response here
-								var _local = {};
+				],
+				buttons:[
+					{
+						text: 'Sign-up'
+					},
+					'->',
+					{
+						text: 'Login',
+						handler: function() {
+							Ext.Ajax.request({
+								url: 'app/model/login.cfc',
+								method: 'POST',
+								params: {
+									username: Ext.getCmp('username').value,
+									password: Ext.getCmp('password').value,
+									method: 'verify'
+								},
+								success: function(response){
+									// process server response here
+									var _local = {};
 
-								_local.rt = Ext.JSON.decode(response.responseText);
+									_local.rt = Ext.JSON.decode(response.responseText);
 
-								_local.keys = _.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify.getLogin');
+									_local.keys = _.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify.getLogin');
 
-								if(_local.rt.FAILURE){
-									// Login failure
-									console.warn(_local.rt.FAILURE);
-									console.info(_local);
-								} else {
-									// Valid login
-									_local.recordcount = _local.rt.ROWCOUNT;
-									_local.records = _.ajax.getRecords(_local.rt, 'loginInfo', 'login.verify.getLogin');
+									if(_local.rt.FAILURE){
+										// Login failure
+										console.warn(_local.rt.FAILURE);
+										console.info(_local);
+									} else {
+										// Valid login
+										_local.recordcount = _local.rt.ROWCOUNT;
+										_local.records = _.ajax.getRecords(_local.rt, 'loginInfo', 'login.verify.getLogin');
 
-									_.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify');	
+										_.ajax.getKeys(_local.rt, 'loginInfo', 'login.verify');	
 
-									_.userinfo = _local;
+										_.userinfo = _local;
 
-									// Hide the window
-									Ext.getCmp('loginWindow').hide();
+										// Hide the window
+										Ext.getCmp('loginWindow').hide();
+									}
+								},
+								failure: function(response){
+									return false;
 								}
-							},
-							failure: function(response){
-								return false;
-							}
-						});
+							});
+						}
 					}
-				}
-			]
-
-		}
+				]
+			}
 		],
 		listeners: {
 			// Adding a listener to the loginWindow object to ensure it remains centered upon window resize
@@ -194,10 +194,10 @@ Ext.onReady(function(){
 				console.warn('username rendered');
 
 				// Adjust the visuals - this should be changed at some point
-				Ext.get('loginWindow-body').dom.className = Ext.get('loginWindow-body').dom.className + ' x-window-login-body'
+				Ext.get('loginWindow-body').dom.className = Ext.get('loginWindow-body').dom.className + ' x-window-login-body';
 				
 				// Center the login prompt
-				_.action.centerLogin;
+				_.action.centerLogin();
 			}
 		}
 	});
