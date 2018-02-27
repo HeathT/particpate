@@ -1,5 +1,28 @@
 body {
-  font: 12px Helvetica, Arial, sans-serif;
-  border: 1px dotted 5px;
+  font: 12px tahoma, helvetica, verdana;
+  border: 2px dotted;
   background: #fff;
+  color: #000;
+}
+.table {
+  font: 9px tahoma, verdana;
+  border: 1px solid;
+  background: #fff;
+  color: #000;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 6px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+#div {
+  font: 6px tahoma, helvetica, arial, verdana, sans-serif;
+  border: none;
+  background: #fff;
+  color: #000;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
 }

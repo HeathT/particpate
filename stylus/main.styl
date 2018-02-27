@@ -1,12 +1,38 @@
+// Functions
+fn-border-radius()
+	-webkit-border-radius: arguments
+	-moz-border-radius: arguments
+	-ms-border-radius arguments + 1
+	-o-border-radius arguments
+	border-radius arguments
 
-font-size = 12px
-font-face = Helvetica,Arial,sans-serif
-border-radius = 5px
-border-size = 1px
-border-type = dotted
+// Variables
+_font-size = 12px
+_font-face = tahoma,helvetica,arial,verdana,sans-serif
+_border-radius = 5px
+_border-size = 2px
+_border-type = solid
+_background = white
+_font-color = black
 
+
+// Stylus
 body
-	font: font-size font-face
-	border: border-size border-type border-radius
-	background: white
+	font: _font-size _font-face[0],_font-face[1],_font-face[3]
+	border: round(_border-size/2+.5) _border-size>1?dotted:solid
+	background: _background
+	color: _font-color
 
+.table
+	font: _font-size*.75 _font-face[0],_font-face[3]
+	border: round(_border-size/2) _border-type
+	background: _background
+	color: _font-color
+	fn-border-radius _border-radius
+
+#div
+	font: _font-size*.5 _font-face
+	border: none
+	background: _background
+	color: _font-color
+	fn-border-radius _border-radius - 2
